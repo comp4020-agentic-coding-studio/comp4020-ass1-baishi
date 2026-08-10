@@ -166,3 +166,19 @@ catching you out, a fact about the stack that's easy to get wrong --- write it
 down here. Growing this file is the work of harness engineering, and the gap
 between this boilerplate and your own version is part of what your prototype
 says about the developer you're becoming.
+
+## The interaction's own contract
+
+This prototype's one interaction reveals a hand-authored ink-shrimp SVG one
+brushstroke at a time (`strokes.ts`), keyed to Qi Baishi's own claim about
+where recognition lives between too few and too many strokes. `pnpm check`
+being green never tells you the drawing looks like a shrimp --- `tsc`,
+`vitest`, and the invariants all pass for a set of `<path>` coordinates that
+render as a caterpillar, a comma, or a bundle of hay just as readily as they
+render as a shrimp. The only sensor for "does this read as its subject" is
+your own eye on the rendered SVG. Before treating any change to `STROKES` as
+done, rebuild and screenshot the canvas at several slider values (0, a few
+mid-range counts, and the max) with `agent-browser` and actually look --- the
+first version of this body curve passed every check yet was a wave, not a
+curl, and never looked like a shrimp at any stroke count until that render
+was checked directly.
