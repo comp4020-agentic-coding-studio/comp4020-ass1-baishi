@@ -109,7 +109,6 @@ figure {
   flex-wrap: wrap;
   align-items: baseline;
   gap: 0.75rem;
-  min-height: 2.5rem;
 }
 
 #stroke-count {
@@ -118,13 +117,18 @@ figure {
   font-size: 0.9rem;
 }
 
-#phase-label {
-  margin: 0;
-  font-weight: bold;
-}
-
-#phase-label[data-phase="sweet-spot"] {
-  color: var(--accent);
+/* Visually hidden but announced to screen readers: sighted visitors judge
+   the drawing by eye, but a screen reader can't see it, so it needs the
+   verdict a sighted visitor would form for themselves. */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  margin: -1px;
+  padding: 0;
+  white-space: nowrap;
+  clip-path: inset(50%);
 }
 
 blockquote {

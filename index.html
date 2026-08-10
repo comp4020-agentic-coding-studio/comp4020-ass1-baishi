@@ -48,10 +48,15 @@
               step="1"
               data-testid="stroke-slider"
             />
-            <div class="readout" aria-live="polite">
+            <div class="readout">
               <span id="stroke-count" data-testid="stroke-count">0 / 16</span>
-              <p id="phase-label" data-testid="phase-label"></p>
             </div>
+            <p
+              id="phase-label"
+              class="sr-only"
+              data-testid="phase-label"
+              aria-live="polite"
+            ></p>
           </figcaption>
         </figure>
         <noscript>
