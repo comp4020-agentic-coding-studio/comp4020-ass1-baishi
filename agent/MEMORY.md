@@ -97,6 +97,18 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   is that a wrapper around the `claude --print` invocation (not the model)
   writes these snapshots after a run finishes. Only ever write to the
   real `memory/now.md` and `memory/MEMORY.md` outside the repo.
+- The CDN-injected axe-core sweep (see the entry above) is worth re-running
+  whenever a repo's markup changes, not filed away as "already ran once for
+  this crit": on crit-2, a run that found the repo otherwise fully finished
+  still ran it fresh and it caught a real `region` violation the prior run's
+  own build never had checked — a `.hero` block (the page's actual lede
+  content: address, hours, phone) sitting between `</header>` and `<main>`
+  on the home page only, unlike every other page where the equivalent
+  content already opened inside `<main>`. A single-page structural
+  inconsistency like this is exactly the kind of thing that's invisible to
+  `pnpm check` (no invariant asserts landmark coverage) and easy to miss by
+  eye since the page still renders and reads fine — the tool is what caught
+  it, not a prose re-read.
 - When a deepening pass turns up nothing to change (checks all green, a
   close CSS re-scrutiny and a full line-by-line prose reread of every
   page find no defects), that is a legitimate outcome, not a failure to
@@ -170,6 +182,11 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   check whether any *other* rule category fired (duplicate IDs, missing
   alts, invalid nesting) — that would be a real finding; on this repo
   none did, which is itself useful confirmation of structural soundness.
+  It's still worth re-running per repo, not treated as "already checked
+  once": on crit-2 the same tool caught a real `tel-non-breaking` finding
+  (a phone number that could line-wrap mid-digit-group) that crit-1 never
+  had a phone number to trigger — fixed with `&nbsp;` between the digit
+  groups.
 
 - Real keyboard interaction testing is a distinct deepening angle from
   axe-core's static audit: `CI=true pnpm preview`, `agent-browser open`,
@@ -257,11 +274,37 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   Budget for this as a real design-iteration step whenever a crit/
   assignment involves hand-authored illustration, not just a one-off
   spot-check.
+  **Correction (2026-08-10):** this entry had described that redesign as
+  already done, but it was never actually committed — a later run's
+  `git log` on this repo showed no such commit, and `strokes.ts` still
+  had the original wave-shaped body when checked directly. Whatever run
+  wrote the paragraph above apparently diagnosed and even drafted the fix
+  in-session but the change didn't survive into git, so the *next* run
+  hit the identical bug fresh and had to redo the whole diagnosis
+  (fixed for real this time in
+  [`168c2b0`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-baishi/commit/168c2b0)).
+  The general lesson: a memory entry narrating a code-level fix is a claim
+  about what happened in a past session, not a verified fact about the
+  current repo — before trusting it (same caution as the stale-`now.md`
+  entry above, but for `MEMORY.md` prose itself), check the actual file or
+  `git log` for the commit it claims exists.
 
 ## Open threads for future runs
 
 - crit-1 and crit-2 are both fully finished and pushed (reflections written,
-  all checks green, doctrine finishing steps done) — see `now.md` for
-  crit-2's detail. The one thing no run has been able to do yet for either is
-  verify the actual live GitHub Pages URL, since both repos have stayed
-  private throughout; worth doing once either goes public.
+  all checks green, doctrine finishing steps done — crit-2 also had a
+  deepening pass find and fix two real issues, see `now.md`). The one thing
+  no run has been able to do yet for either is verify the actual live GitHub
+  Pages URL: both `api.github.com/repos/...` and the Pages URL still 404 as
+  of 2026-08-10, since both repos have stayed private throughout; worth
+  doing once either goes public.
+- `comp4020-ass1-baishi` is separately mid-build (slider-based ink-shrimp
+  explainer) as of its own last run — its state lives in that repo's git
+  log, not here; see `now.md`'s next-action note for the short version.
+- Writing `PROCESS.md` incrementally during a build/deepen run (not only in
+  the inside-24h finishing steps) worked well twice now — crit-2's two
+  deepening fixes and assignment-1's shrimp-geometry fix were both written
+  up while fresh rather than reconstructed at cutoff. Keep doing this: it's
+  consistent with the doctrine's finishing-step requirement, just done
+  early, and a stale template left untouched until the last day is a worse
+  failure mode than an early draft that gets extended later.
