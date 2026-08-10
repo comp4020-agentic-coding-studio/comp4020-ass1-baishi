@@ -3,21 +3,116 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>COMP4020 prototype</title>
+    <title>Between likeness and unlikeness</title>
+    <meta
+      name="description"
+      content="An interactive ink shrimp, revealed one brushstroke at a time, that lets you find Qi Baishi's idea of 似与不似之间 for yourself."
+    />
     <link rel="stylesheet" href="./styles.css" />
   </head>
   <body>
     <header>
+      <p class="wordmark">妙在似与不似之间</p>
       <nav aria-label="Primary">
-        <a href="./">Home</a>
+        <a href="#interact">Try it</a>
+        <a href="#idea">The idea</a>
+        <a href="#elsewhere">Where else it shows up</a>
       </nav>
     </header>
     <main>
-      <h1>COMP4020 prototype</h1>
-      <p data-testid="intro">
-        Replace this with your prototype. This week's brief is on the course website;
-        <code>spec/README.md</code> explains how the checks in this repo relate to it.
+      <h1>Between likeness and unlikeness</h1>
+
+      <p class="lede">
+        Drag the slider below one stroke at a time. Watch for the point where
+        a scribble becomes a shrimp — and the point, later, where it stops
+        being one again.
       </p>
+
+      <section id="interact" aria-labelledby="interact-heading">
+        <h2 id="interact-heading">The drawing</h2>
+        <figure>
+          <svg
+            id="shrimp-canvas"
+            viewBox="0 0 640 300"
+            role="img"
+            aria-label="An ink drawing of a shrimp, built up stroke by stroke as the slider moves."
+          ></svg>
+          <figcaption class="controls">
+            <label for="stroke-slider">Strokes revealed</label>
+            <input
+              type="range"
+              id="stroke-slider"
+              min="0"
+              max="16"
+              value="0"
+              step="1"
+              data-testid="stroke-slider"
+            />
+            <div class="readout" aria-live="polite">
+              <span id="stroke-count" data-testid="stroke-count">0 / 16</span>
+              <p id="phase-label" data-testid="phase-label"></p>
+            </div>
+          </figcaption>
+        </figure>
+        <noscript>
+          <p>
+            This page's one interaction needs JavaScript. Without it, imagine
+            dragging a slider from zero strokes (an empty page) up to sixteen
+            (a fully outlined, shaded, every-leg-drawn shrimp) — and ask
+            yourself where in that range it actually looked like a shrimp.
+          </p>
+        </noscript>
+      </section>
+
+      <section id="idea" aria-labelledby="idea-heading">
+        <h2 id="idea-heading">The idea</h2>
+        <p>
+          Qi Baishi (齐白石, 1864&ndash;1957) &mdash; the village carpenter who
+          became one of the most reproduced painters in modern China, and
+          whose late work turned again and again to a handful of ink strokes
+          for a shrimp &mdash; is credited with a line that has outlived most
+          of his paintings:
+        </p>
+        <blockquote lang="zh" cite="https://en.wikipedia.org/wiki/Qi_Baishi">
+          <p>太似则媚俗，不似则欺世，妙在似与不似之间。</p>
+          <p class="translation">
+            Too much likeness panders to vulgar taste; too little deceives the
+            world. The marvel lies between likeness and unlikeness.
+          </p>
+        </blockquote>
+        <p>
+          It's usually read as advice about painting. It's really a claim
+          about where recognition itself lives. Above, strokes one through
+          three commit to nothing &mdash; a curved line, a point, a dot could
+          be almost anything. Somewhere around stroke four or five, without
+          any single stroke doing something different in kind, it becomes
+          unmistakably a shrimp. Keep adding strokes past ten or so &mdash;
+          outlining the silhouette, drawing every leg instead of implying a
+          cluster of them, hatching in shading &mdash; and it doesn't get
+          <em>more</em> like a shrimp. It gets stiffer. The gesture that made
+          it alive gets buried under the detail that makes it correct.
+        </p>
+        <p>
+          Nobody told you which stroke count was which as you dragged. That's
+          the point: the middle zone isn't a fact you can be handed, it's a
+          judgement you make by looking, and it moves depending on what you're
+          drawing.
+        </p>
+      </section>
+
+      <section id="elsewhere" aria-labelledby="elsewhere-heading">
+        <h2 id="elsewhere-heading">Where else it shows up</h2>
+        <p>
+          The same curve applies wherever something stands in for something
+          else: a caricature that's just a few exaggerated lines can be more
+          recognisable than a careful likeness; an emoji face is three or four
+          marks and unmistakably a face; a logo redrawn with every texture and
+          gradient a real object has, usually reads as worse, not better, than
+          a flat mark. Likeness and unlikeness aren't opposites with a correct
+          amount of each &mdash; they trade off, and the interesting work is
+          in the trade, not at either end.
+        </p>
+      </section>
     </main>
     <script type="module" src="./main.ts"></script>
   </body>
