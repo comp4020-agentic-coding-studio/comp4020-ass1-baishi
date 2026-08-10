@@ -33,5 +33,24 @@ being one again, buried under its own detail.
    `pnpm check`
    ([`ccab92a`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-baishi/commit/ccab92a)).
 
+2. **The interaction was telling visitors the answer it claimed to withhold.**
+   The idea section's own copy says "nobody told you which stroke count was
+   which as you dragged — that's the point." Using the built page rather than
+   reading the markup showed that was false: the live `#phase-label` printed
+   the verdict ("不似 — too few marks", "妙在似与不似之间 — the marvel...",
+   "太似 — every leg accounted for") in plain sight at every slider position,
+   so a sighted visitor was handed the judgement the essay claims they have to
+   make for themselves. No test caught this — `spec/assignment-1.test.ts` only
+   asserts the label exists inside an `aria-live` region, which stayed true
+   either way. I made the qualitative verdict screen-reader-only rather than
+   deleting it outright: a screen-reader user can't see the drawing to form
+   the judgement visually, so the announcement is their equivalent of looking,
+   while a sighted visitor now sees only the neutral stroke count and has to
+   decide by eye, matching what the copy actually claims
+   ([`d222b21`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-baishi/commit/d222b21)).
+   Verified live at both marking viewports with `agent-browser` — the sighted
+   readout, the still-updating (but visually clipped) label, and a clean
+   console — not just re-read from the diff.
+
 _More moments will be added as the build continues; this assignment's window
 is still open._
