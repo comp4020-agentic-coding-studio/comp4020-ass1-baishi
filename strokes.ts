@@ -23,35 +23,36 @@ export interface Stroke {
 // over-specified detail that stiffens the same subject into a diagram.
 export const STROKES: Stroke[] = [
   // -- the gestural core (1-6): what a few loaded brush strokes can carry --
-  // A shrimp curls: head high on the right, back arching down through the
-  // belly, tail hooking back up and to the left. That C-curve is what the
-  // rest of the strokes hang off.
+  // A shrimp curls into a single C: head high on the right, one continuous
+  // sweep down through the belly and back up into a hooked tail flick at the
+  // left. That's one coherent curl, not a wave — a wave is what reads as a
+  // scribble instead of a curled body.
   {
     id: "body-main",
     shape: {
       kind: "path",
-      d: "M 490,130 C 430,95 350,110 320,160 C 290,210 220,230 175,200 C 140,175 120,140 115,105",
+      d: "M 480,100 C 410,125 360,180 290,205 C 220,230 155,205 122,148 C 100,112 108,85 145,78",
     },
     width: 9,
   },
   {
     id: "head-rostrum",
-    shape: { kind: "path", d: "M 488,122 C 500,110 512,104 524,100" },
+    shape: { kind: "path", d: "M 478,96 C 498,89 518,85 538,83" },
     width: 5,
   },
   {
     id: "antenna-1",
-    shape: { kind: "path", d: "M 485,115 C 520,90 565,50 615,15" },
+    shape: { kind: "path", d: "M 476,92 C 518,58 572,25 622,5" },
     width: 2.5,
   },
   {
     id: "antenna-2",
-    shape: { kind: "path", d: "M 485,128 C 515,145 548,178 585,215" },
+    shape: { kind: "path", d: "M 476,106 C 512,138 552,175 588,210" },
     width: 2.5,
   },
   {
     id: "eye",
-    shape: { kind: "circle", cx: 480, cy: 119, r: 4.5 },
+    shape: { kind: "circle", cx: 473, cy: 90, r: 4.5 },
     width: 0,
     fill: "currentColor",
   },
@@ -59,31 +60,31 @@ export const STROKES: Stroke[] = [
     id: "tail-fan-basic",
     shape: {
       kind: "path",
-      d: "M 115,105 L 92,78 M 117,108 L 88,100 M 119,113 L 93,132",
+      d: "M 145,78 L 170,58 M 142,82 L 162,72 M 139,87 L 152,100",
     },
     width: 3.5,
   },
   // -- the sweet spot (7-10): a little more life, still gesture --
   {
     id: "body-segment-1",
-    shape: { kind: "path", d: "M 355,140 Q 362,158 352,174" },
+    shape: { kind: "path", d: "M 385,145 Q 392,163 380,177" },
     width: 3,
   },
   {
     id: "body-segment-2",
-    shape: { kind: "path", d: "M 300,175 Q 308,192 297,207" },
+    shape: { kind: "path", d: "M 300,195 Q 307,212 295,225" },
     width: 3,
   },
   {
     id: "body-segment-3",
-    shape: { kind: "path", d: "M 230,215 Q 238,230 226,242" },
+    shape: { kind: "path", d: "M 215,213 Q 222,230 210,242" },
     width: 3,
   },
   {
     id: "leg-cluster-impression",
     shape: {
       kind: "path",
-      d: "M 300,195 L 291,213 M 275,205 L 267,222 M 250,212 L 242,228 M 225,213 L 217,229 M 200,208 L 193,224",
+      d: "M 270,200 L 260,220 M 245,208 L 236,227 M 220,213 L 211,231 M 195,213 L 187,231 M 170,205 L 163,222",
     },
     width: 2.5,
   },
@@ -92,7 +93,7 @@ export const STROKES: Stroke[] = [
     id: "antenna-detail-ticks",
     shape: {
       kind: "path",
-      d: "M 515,95 L 523,85 M 545,70 L 553,60 M 575,45 L 583,35",
+      d: "M 520,60 L 528,50 M 548,42 L 556,32 M 578,22 L 586,13",
     },
     width: 1.5,
   },
@@ -100,7 +101,7 @@ export const STROKES: Stroke[] = [
     id: "tail-fan-full",
     shape: {
       kind: "path",
-      d: "M 114,106 L 100,68 M 115,107 L 93,82 M 116,109 L 86,96 M 117,111 L 85,112 M 118,113 L 90,128 M 119,115 L 98,142",
+      d: "M 146,76 L 178,50 M 144,79 L 170,60 M 142,82 L 160,70 M 140,85 L 150,92 M 138,89 L 142,108 M 136,93 L 136,115",
     },
     width: 2.5,
   },
@@ -108,7 +109,7 @@ export const STROKES: Stroke[] = [
     id: "leg-cluster-full",
     shape: {
       kind: "path",
-      d: "M 400,150 L 393,172 M 375,165 L 367,186 M 350,178 L 342,198 M 325,190 L 317,210 M 300,198 L 292,217 M 275,205 L 267,223 M 250,208 L 242,225 M 225,205 L 217,222 M 200,198 L 193,215 M 175,188 L 169,204",
+      d: "M 350,175 L 342,196 M 325,188 L 317,208 M 300,198 L 292,217 M 275,205 L 267,224 M 250,210 L 242,228 M 225,213 L 217,231 M 200,212 L 193,229 M 175,206 L 169,222 M 150,195 L 145,210",
     },
     width: 2,
   },
@@ -116,7 +117,7 @@ export const STROKES: Stroke[] = [
     id: "body-outline",
     shape: {
       kind: "path",
-      d: "M 490,130 C 430,95 350,110 320,160 C 290,210 220,230 175,200 C 140,175 120,140 115,105",
+      d: "M 480,100 C 410,125 360,180 290,205 C 220,230 155,205 122,148 C 100,112 108,85 145,78",
     },
     width: 1.5,
     offset: { dx: 6, dy: 7 },
@@ -125,13 +126,13 @@ export const STROKES: Stroke[] = [
     id: "shading-hatch",
     shape: {
       kind: "path",
-      d: "M 220,190 L 230,200 M 240,185 L 250,195 M 260,180 L 270,190 M 280,175 L 290,185 M 300,170 L 310,180 M 320,165 L 330,175 M 340,155 L 350,165 M 360,145 L 370,155",
+      d: "M 250,190 L 260,200 M 270,183 L 280,193 M 290,175 L 300,185 M 310,165 L 320,175 M 330,155 L 340,165 M 350,145 L 360,155",
     },
     width: 1.2,
   },
   {
     id: "eye-detail",
-    shape: { kind: "circle", cx: 481.5, cy: 117.5, r: 1.5 },
+    shape: { kind: "circle", cx: 474.5, cy: 88.5, r: 1.5 },
     width: 0,
     fill: "#f5efe1",
   },
