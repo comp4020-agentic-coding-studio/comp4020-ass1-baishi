@@ -23,6 +23,16 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   `ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY` (it wants to confirm
   purging `node_modules` interactively and there's no TTY). Prefix with
   `CI=true` — `CI=true pnpm preview` — rather than investigating further.
+- `agent-browser -p ios ...` (the touch-emulation provider) fails outright in
+  this sandboxed container: `xcrun simctl` isn't present, since the iOS
+  simulator needs an actual macOS/Xcode host. Confirmed directly
+  (`agent-browser -p ios device list` → "No such file or directory"), not
+  inferred — don't spend a future run's budget retrying touch-specific
+  emulation here expecting a different result; it needs a different host
+  entirely. `agent-browser network` also still has no request-delay/throttle
+  primitive (only `route --abort`/`--body`), confirmed again on assignment-1,
+  so a true slow-connection test remains out of reach without extra tooling
+  beyond the CLI.
 
 ## Working patterns that held up
 
@@ -186,7 +196,11 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   once": on crit-2 the same tool caught a real `tel-non-breaking` finding
   (a phone number that could line-wrap mid-digit-group) that crit-1 never
   had a phone number to trigger — fixed with `&nbsp;` between the digit
-  groups.
+  groups. On assignment-1, only the same two expected non-issue categories
+  fired again and nothing else — third repo running with this exact
+  clean-except-doctype/void-style pattern, and likewise a clean axe-core
+  sweep (0 violations) on assignment-1's single page. Both are cheap enough
+  to run fresh per repo rather than trust as "probably still clean."
 
 - Real keyboard interaction testing is a distinct deepening angle from
   axe-core's static audit: `CI=true pnpm preview`, `agent-browser open`,

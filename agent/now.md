@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-11
+updated: 2026-08-12
 deliverable: comp4020-ass1-baishi
 ---
 
@@ -7,75 +7,68 @@ deliverable: comp4020-ass1-baishi
 
 ## State
 
-This run's prompt named `comp4020-ass1-baishi`, 135h from cutoff (due noon
-Mon 2026-08-17) — still plan/build/deepen territory. Re-fetched the course
-source; brief and spec unchanged again (interactive explainer, 45/20/35
+This run's prompt named `comp4020-ass1-baishi`, 124h from cutoff (due noon
+Mon 2026-08-17) — still deepen territory. Re-fetched the course source: brief
+and spec unchanged again (interactive explainer, 45/20/35
 process/artefact/brief, `PROCESS.md` 400–600 words with 3–4 moments,
 strongest moments land in the harness not in a retry).
 
-Took stock: repo unchanged since the last run (`4d51155`), tree clean, two
-moments in `PROCESS.md` (wave-vs-curl geometry `168c2b0`, phase-label
+Took stock: repo unchanged since the last run (`b666e34`), tree clean, still
+two moments in `PROCESS.md` (wave-vs-curl geometry `168c2b0`, phase-label
 sighted/screen-reader split `d222b21`). `pnpm check` green (24/24 tests).
 
-Followed up on the previous run's own next-action note: try genuinely
-adversarial real-world use (slow network, real pointer/touch drag) rather
-than only synthetic checks.
+Ran the checks logged as done for crit-1/crit-2 but not yet for this repo
+specifically:
 
-- **Real pointer drag** (mouse down → move → move → up via
-  `agent-browser mouse`, not synthetic `input` dispatch): dragged
-  `#stroke-slider` across several positions. Value and the "N / 16" readout
-  tracked correctly mid-drag (not just on release), and a
-  `#shrimp-canvas`-only screenshot taken *during* a drag (mouse still down,
-  value 6) showed the SVG had already redrawn to that stroke count — the
-  canvas updates live off the same `input` event a mouse drag fires
-  continuously, not just on `change`/release. No console errors.
-- **Simulated broken/slow connection**: `agent-browser` has no request-delay
-  primitive (`network route` only supports `--abort` or a fixed
-  `--body`), so this was an abort of the JS bundle, not a true throttle —
-  logged as a proxy, not the real thing. Result: the page still renders
-  fully (all prose, headings, the slider control itself) with zero console
-  errors — nothing crashes. But the slider becomes silently dead: it's a
-  native `<input type="range">` so dragging/keying it still moves its own
-  `value` (confirmed `End` → `"16"`), yet the "N / 16" label and the SVG
-  never update, because that wiring lives entirely in the `input` handler in
-  `main.ts`. No error, no `<noscript>`, no visible sign anything failed —
-  a visitor just sees a slider that appears to do nothing.
+- **axe-core CDN sweep** (inject `axe.min.js` via CDN into the served
+  `dist/index.html`, `axe.run()`): zero violations.
+- **`pnpm dlx html-validate dist/*.html`**: only the two expected non-issue
+  rule categories (`doctype-style`, `void-style` — this template's
+  intentional modern style vs. the tool's legacy-authoring preset, see
+  `[[working-patterns]]`/MEMORY.md). No other rule fired — third repo in a
+  row this holds, further confirming it's a real pattern rather than
+  coincidence.
+- Browser console: clean, no errors.
+- `PROCESS.md` word count: 502 (within the 400–600 band).
+- Full prose reread of `index.html` (idea + elsewhere sections): no defects,
+  the sr-only phase-label fix still reads as intended against the copy's own
+  claim.
 
-Decided not to code a fix for the second finding. Reasons: (1) it's a
-JS-load *failure*, not a *slow* connection — the criterion's own wording
-("holds up under... a slow connection") is about latency, not JS never
-arriving, and every exemplar in the brief (neal.fun, pudding.cool,
-ciechanow.ski) is equally JS-load-dependent with no noscript fallback, so
-this isn't a gap specific to this build; (2) the actual deployed payload is
-a few hundred bytes of same-origin JS/CSS with no fonts/images/third-party
-requests (already checked in an earlier run), so real slow-connection risk
-is already about as low as a static site gets; (3) MEMORY.md's own standing
-lesson is not to manufacture a fix without a defect the criterion is
-actually pointing at. Recorded as "checked, no action" rather than left
-untried.
+Tried but confirmed infeasible in this sandboxed container (not merely
+"didn't get to it"):
+
+- **iOS touch emulation** (`agent-browser -p ios ...`): fails outright —
+  `xcrun simctl` isn't present (no Xcode/macOS host). Not something a future
+  run should retry expecting a different result here.
+- **CDP-level network throttle** (bypassing `agent-browser`'s CLI, which only
+  supports `--abort`/`--body`, no delay primitive): still no lower-level path
+  without extra tooling investment not clearly justified by the marking
+  criterion's wording. Re-confirmed rather than assumed.
 
 No code changes this run — a legitimate "verified, nothing needed" outcome
-on these two new angles specifically (distinct from the resize/keyboard/
-network-timing angles a prior run already covered). Working tree stayed
-clean throughout; nothing was committed.
+across five distinct new checks, consistent with the standing lesson not to
+manufacture busywork just to have a diff. Nothing was committed (nothing
+changed).
 
 ## Next action
 
-Still only two `PROCESS.md` moments, and that continues to be fine — the
-spec's 3–4-moment room doesn't need filling before it's earned. For a
-future run:
-
-- The adversarial-use angle is now fairly well exhausted (resize,
-  keyboard tab-order + actuation, real pointer drag, resource/timing
-  check, JS-abort proxy for connection failure). If a future run wants a
-  genuinely new angle, touch-specific emulation (not just mouse) or an
-  actual CDP-level network-throttle (bypassing agent-browser's CLI, which
-  has no delay primitive) are the remaining untried ones — but don't chase
-  either just to manufacture a third `PROCESS.md` moment; only write one up
-  if it surfaces a real defect the way the first two did.
-- Keep resisting scope growth (extra pages/features) this far out — the
-  brief rewards one idea carried all the way, and this note has said so for
-  three runs running now.
-- `reflections/assignment-1.md` still correctly doesn't exist yet
-  (`pnpm check:evidence` flags it, as expected) — finishing-window task, not
-  now.
+- The adversarial/audit-tooling angle is now genuinely exhausted for this
+  repo: resize, keyboard tab-order + actuation, real pointer drag,
+  resource/timing check, JS-abort proxy, axe-core, html-validate, console,
+  word-count, and a full prose reread have all been run and found nothing.
+  Touch and true network-throttle are confirmed infeasible in this sandbox,
+  not just untried — don't re-attempt either expecting a different result
+  unless the environment itself changes (e.g. a macOS host becomes
+  available).
+- Still only two `PROCESS.md` moments, and that continues to be fine — three
+  runs now have found nothing new to fix, so there's genuinely nothing to
+  write a third moment about yet. Only add one if a future run's build/edit
+  work turns up a real harness-level correction, not by going looking for a
+  fourth checking angle to force one.
+- Keep resisting scope growth (extra pages/features/content) — the brief
+  rewards one idea carried all the way, and every run this week has
+  confirmed the current build already does this cleanly.
+- `reflections/assignment-1.md` still correctly doesn't exist yet — that's a
+  finishing-window task (inside 24h of the 2026-08-17 noon cutoff), not now.
+  If a future run is the one that crosses into that window, write it then,
+  along with the other finishing steps in the doctrine.
