@@ -200,6 +200,30 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   doesn't). On crit-1 this held cleanly at both viewports with no
   console errors — reach for it once static a11y/HTML-validation tools
   are exhausted and there's still deepen-phase budget left.
+- Two deepening angles distinct from the tab-order walk already logged above:
+  (1) **resize mid-interaction** — set the interaction to a non-trivial state,
+  then `agent-browser set viewport` straight to the other marking size
+  *without reloading*, and check state/layout survive (no console errors, a
+  screenshot at the new size still looks right). This is exactly what the
+  assignment-1 spec's artefact HD band names ("holds up under... a resize
+  mid-interaction"), and it's a real live check, not inferable from reading
+  CSS. (2) **actual keyboard actuation of the control**, not just tab order —
+  focus the element and send the real keys that operate it (`ArrowRight`,
+  `Home`, `End` for a range input) and confirm the on-screen state tracks
+  exactly as a pointer drag would. Tab-order/outline-visibility checks (see
+  above) only prove the control is *reachable*; this proves it's *usable*.
+  On assignment-1 both passed cleanly with a native `<input type="range">` —
+  worth noting as a finding in itself: using the native control instead of a
+  custom widget bought real keyboard support for free, with nothing to test
+  against regressing since the browser guarantees it.
+- `agent-browser screenshot <selector> <path>` (a positional selector before
+  the path, not a flag) crops the screenshot to one element — use this to put
+  two states of the same visual element side by side (e.g. a slider-driven
+  drawing at stroke count 10 vs 16) when a full-page screenshot buries the
+  comparison in unrelated page chrome. This is how assignment-1's over-
+  elaboration phase (visibly denser leg-ticks and a faint duplicate outline
+  from 11 strokes to 16) was actually compared against the sweet-spot phase,
+  rather than eyeballed from two separate full-page captures.
 - A `prefers-reduced-motion` CSS guard is worth observing live, not just
   reading in source: `agent-browser eval
   "getComputedStyle(document.querySelector(selector)).animationName"`
