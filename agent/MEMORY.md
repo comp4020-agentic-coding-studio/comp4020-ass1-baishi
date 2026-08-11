@@ -356,6 +356,26 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   harness's own clock, from the commit this agent pushes. This agent's job
   stops at "push the clean tree."
 
+- `agent-browser network route` only supports `--abort` or a fixed
+  `--body` — there is no request-delay/throttle primitive, so it cannot
+  simulate a genuinely *slow* connection, only a broken one (abort). For
+  the artefact criterion's "holds up under... a slow connection" HD line,
+  the closest available proxy is aborting the JS/CSS request and checking
+  the page still renders without crashing — useful, but log it explicitly
+  as a proxy for the real thing, not the real thing, since a load that
+  never arrives (abort) and one that arrives late (slow) can degrade
+  differently (e.g. a slider whose native `value` still moves via keyboard/
+  drag even with its `input` handler never wired up, silently, with no
+  error and no visible sign to the visitor).
+- Real pointer-drag testing (`agent-browser mouse move/down/move/up`, not
+  synthetic `input` dispatch and distinct from the keyboard-actuation check
+  already logged above) is worth doing once per interaction that's driven
+  by mouse/touch: it caught, on assignment-1's stroke slider, that the
+  redraw happens live mid-drag (a `#shrimp-canvas`-only screenshot taken
+  with the mouse still down showed the SVG already at the dragged-to
+  stroke count) rather than only on release — confirming the `input`
+  event wiring, not just the final value, behaves as the copy promises.
+
 ## Open threads for future runs
 
 - crit-1 and crit-2 are both fully finished and pushed (reflections written,

@@ -7,70 +7,75 @@ deliverable: comp4020-ass1-baishi
 
 ## State
 
-This run's prompt named `comp4020-ass1-baishi`, 141h from cutoff (due noon
+This run's prompt named `comp4020-ass1-baishi`, 135h from cutoff (due noon
 Mon 2026-08-17) — still plan/build/deepen territory. Re-fetched the course
-source; brief and spec unchanged from what was already in memory (interactive
-explainer, 45/20/35 process/artefact/brief, `PROCESS.md` 400–600 words with
-3–4 moments, strongest moments land in the harness not in a retry).
+source; brief and spec unchanged again (interactive explainer, 45/20/35
+process/artefact/brief, `PROCESS.md` 400–600 words with 3–4 moments,
+strongest moments land in the harness not in a retry).
 
-Took stock: repo unchanged since the last run (`1a0be0e`), tree clean, two
-moments already in `PROCESS.md` (the wave-vs-curl geometry fix `168c2b0`, the
-phase-label sighted/screen-reader split `d222b21`).
+Took stock: repo unchanged since the last run (`4d51155`), tree clean, two
+moments in `PROCESS.md` (wave-vs-curl geometry `168c2b0`, phase-label
+sighted/screen-reader split `d222b21`). `pnpm check` green (24/24 tests).
 
-Ran a fresh deepening pass aimed specifically at the artefact criterion's HD
-band ("holds up under use it wasn't designed for: the keyboard, a resize mid-
-interaction, a slow connection") — three angles not yet recorded for this
-repo:
+Followed up on the previous run's own next-action note: try genuinely
+adversarial real-world use (slow network, real pointer/touch drag) rather
+than only synthetic checks.
 
-- **Resize mid-interaction**: set the slider to 8/16, then resized the live
-  page from 1920×1080 straight to 390×844 without reloading. State, layout,
-  and the SVG's responsive scaling all held — slider value, stroke count and
-  `canvas.dataset.visibleCount` were unchanged, no console errors, and the
-  screenshot at the new viewport still reads correctly. Nothing to fix; the
-  page has no resize listener at all, so this was really confirming the
-  layout is intrinsically responsive rather than JS-patched.
-- **Real keyboard actuation of the slider** (distinct from the tab-order walk
-  already recorded in MEMORY.md, which only checked focus order and outline
-  visibility): focused `#stroke-slider` and drove it with `ArrowRight` ×3,
-  `End`, `Home` — value and readout tracked exactly as a mouse drag would,
-  console stayed clean. This is native `<input type="range">` behaviour, not
-  something the site's own code could break, which is itself the finding:
-  using the native control instead of a custom widget bought this for free.
-- **Slow-connection resilience**: checked `performance.getEntriesByType('resource')`
-  on a fresh load — the only two network requests are same-origin `index.js`
-  and `index.css` (a few hundred bytes each), no fonts, no images, no
-  third-party requests. Nothing external to fail slowly.
+- **Real pointer drag** (mouse down → move → move → up via
+  `agent-browser mouse`, not synthetic `input` dispatch): dragged
+  `#stroke-slider` across several positions. Value and the "N / 16" readout
+  tracked correctly mid-drag (not just on release), and a
+  `#shrimp-canvas`-only screenshot taken *during* a drag (mouse still down,
+  value 6) showed the SVG had already redrawn to that stroke count — the
+  canvas updates live off the same `input` event a mouse drag fires
+  continuously, not just on `change`/release. No console errors.
+- **Simulated broken/slow connection**: `agent-browser` has no request-delay
+  primitive (`network route` only supports `--abort` or a fixed
+  `--body`), so this was an abort of the JS bundle, not a true throttle —
+  logged as a proxy, not the real thing. Result: the page still renders
+  fully (all prose, headings, the slider control itself) with zero console
+  errors — nothing crashes. But the slider becomes silently dead: it's a
+  native `<input type="range">` so dragging/keying it still moves its own
+  `value` (confirmed `End` → `"16"`), yet the "N / 16" label and the SVG
+  never update, because that wiring lives entirely in the `input` handler in
+  `main.ts`. No error, no `<noscript>`, no visible sign anything failed —
+  a visitor just sees a slider that appears to do nothing.
 
-Also re-verified the drawing's geometry across every phase boundary (0, 3, 4,
-7, 10, 11, 16) at desktop, including cropped `#shrimp-canvas`-only screenshots
-at 10/13/16 to compare the sweet-spot and over-elaboration phases side by
-side. The C-curl still reads as a shrimp at every count; the over-elaboration
-phase (11–16) is a real but gradual density increase (more leg ticks, a
-faint duplicate outline) rather than a dramatic one — considered redesigning
-this to be more visually dramatic, decided against it: the effect is present
-and truthful to the copy's claim, "make it more dramatic" would be a
-subjective aesthetic call without a clear defect behind it, and MEMORY.md's
-existing lesson is not to manufacture changes without one.
+Decided not to code a fix for the second finding. Reasons: (1) it's a
+JS-load *failure*, not a *slow* connection — the criterion's own wording
+("holds up under... a slow connection") is about latency, not JS never
+arriving, and every exemplar in the brief (neal.fun, pudding.cool,
+ciechanow.ski) is equally JS-load-dependent with no noscript fallback, so
+this isn't a gap specific to this build; (2) the actual deployed payload is
+a few hundred bytes of same-origin JS/CSS with no fonts/images/third-party
+requests (already checked in an earlier run), so real slow-connection risk
+is already about as low as a static site gets; (3) MEMORY.md's own standing
+lesson is not to manufacture a fix without a defect the criterion is
+actually pointing at. Recorded as "checked, no action" rather than left
+untried.
 
-No code changes this run — a legitimate "verified, nothing needed" outcome,
-now the third time this pattern has held for this repo. Working tree stayed
+No code changes this run — a legitimate "verified, nothing needed" outcome
+on these two new angles specifically (distinct from the resize/keyboard/
+network-timing angles a prior run already covered). Working tree stayed
 clean throughout; nothing was committed.
 
 ## Next action
 
-Still no third `PROCESS.md` moment has presented itself from real use, and
-that's fine this far out — the spec's 3–4-moment room doesn't need filling
-early. For a future run, before inventing one:
+Still only two `PROCESS.md` moments, and that continues to be fine — the
+spec's 3–4-moment room doesn't need filling before it's earned. For a
+future run:
 
-- Try genuinely adversarial real-world use next: slow the network for real
-  (agent-browser's `network route` can abort/delay requests — this run only
-  read `performance` timings, didn't try artificially delaying the JS/CSS
-  response), or drive the interaction with touch/pointer events rather than
-  synthetic `input` dispatch.
-- If a run does eventually find nothing further and cutoff is still >24h out,
-  resist the urge to force a third moment or add scope (extra pages,
-  features) — the brief rewards one idea carried all the way, and the repo's
-  own next-action notes have said this twice now.
+- The adversarial-use angle is now fairly well exhausted (resize,
+  keyboard tab-order + actuation, real pointer drag, resource/timing
+  check, JS-abort proxy for connection failure). If a future run wants a
+  genuinely new angle, touch-specific emulation (not just mouse) or an
+  actual CDP-level network-throttle (bypassing agent-browser's CLI, which
+  has no delay primitive) are the remaining untried ones — but don't chase
+  either just to manufacture a third `PROCESS.md` moment; only write one up
+  if it surfaces a real defect the way the first two did.
+- Keep resisting scope growth (extra pages/features) this far out — the
+  brief rewards one idea carried all the way, and this note has said so for
+  three runs running now.
 - `reflections/assignment-1.md` still correctly doesn't exist yet
   (`pnpm check:evidence` flags it, as expected) — finishing-window task, not
   now.
