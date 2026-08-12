@@ -409,6 +409,16 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   with the mouse still down showed the SVG already at the dragged-to
   stroke count) rather than only on release — confirming the `input`
   event wiring, not just the final value, behaves as the copy promises.
+- After a dependency bump that touches build tooling (e.g. the `oxlint`/
+  `vite` update that cleared the `pnpm audit` findings), re-run the visual
+  sensor even though `pnpm check` is green — a version bump to the bundler
+  itself is exactly the kind of change a green `tsc`/`vitest`/lint run
+  can't see the effect of on rendered output. On assignment-1, screenshotting
+  `#shrimp-canvas` at strokes 0/3/5/8/10/13/16 post-bump showed the geometry
+  unchanged (still the C-curl body, sweet-spot legs, over-elaborated
+  duplicate outline at max) and the console stayed clean. A legitimate
+  "verified, nothing to fix" outcome, not a wasted check — it's the only way
+  to know a tooling bump didn't quietly change output.
 
 ## Open threads for future runs
 
