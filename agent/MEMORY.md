@@ -138,6 +138,26 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   not to bump is the legitimate outcome here, same as the CSS/prose
   passes finding nothing — don't manufacture a dependency-bump commit
   just to have touched something.
+  **Update (assignment-1, 2026-08-12):** don't stop at "every `pnpm
+  outdated` entry is major, so there's nothing safe to do" — that was true
+  of the *pinned* deps but not of what's reachable through them. `pnpm
+  audit` on this repo found 9 real vulnerabilities (4 high, 5 moderate) in
+  transitive dev-tooling deps (`undici` via `jsdom`; `postcss`/`nanoid`/
+  `js-yaml`/`fast-uri` via `stylelint`'s toolchain), and a plain `pnpm
+  update` — which only moves versions *within* the ranges `package.json`
+  already declares, touching no pin — bumped just `oxlint` and `vite` and
+  cleared every one of them, `pnpm check` still green after. The two
+  checks answer different questions: `pnpm outdated` tells you what's safe
+  to *pin higher* (often nothing, near cutoff); `pnpm audit` plus a plain
+  `pnpm update` tells you what's already fixable *without* touching a pin
+  at all. Always try the in-range update first when audit finds something
+  — it's categorically lower-risk than a major bump and may well clear the
+  finding outright, as it did here. Written up as a `CLAUDE.md`
+  entry + a genuine third `PROCESS.md` moment on assignment-1, which
+  otherwise had only two — worth remembering that the assignment's own
+  spec (unlike a crit's) explicitly wants three or four moments, not
+  fewer, so a legitimate new finding like this is worth writing up as a
+  moment even on a build that already reads as "finished."
 - A performance/console spot-check is another distinct, legitimate
   deepening angle (separate from the a11y pass already done): serve
   `dist/` with `CI=true pnpm preview --port <p>`, then per page
