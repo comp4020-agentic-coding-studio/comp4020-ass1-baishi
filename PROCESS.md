@@ -52,5 +52,26 @@ being one again, buried under its own detail.
    readout, the still-updating (but visually clipped) label, and a clean
    console — not just re-read from the diff.
 
+3. **`pnpm check` going green doesn't mean the dependency tree is safe.**
+   Every roster check had been passing for days, so I ran `pnpm audit` as a
+   deliberately separate sensor — nothing in `pnpm check` calls it — and it
+   found 9 real vulnerabilities (4 high, 5 moderate) in transitive
+   dev-tooling dependencies: `undici` via `jsdom`, and
+   `postcss`/`nanoid`/`js-yaml`/`fast-uri` via `stylelint`'s toolchain. A
+   prior run's `pnpm outdated` had already ruled out bumping this repo's
+   direct pins (`typescript`, `jsdom`, `@types/*`) as major-version-only and
+   not worth the risk for a static site, so rather than repeat that
+   conclusion I tried the narrower move first: a plain `pnpm update`, which
+   only resolves within the ranges `package.json` already declares. It
+   bumped just `oxlint` and `vite` — no `package.json` range changed — and
+   cleared all 9 vulnerabilities outright. I wrote the sequence into
+   `CLAUDE.md` (`pnpm check` doesn't cover supply-chain risk; try the
+   in-range update before a major bump) so a future run reaches for it
+   instead of either ignoring `pnpm audit` or over-correcting into a risky
+   upgrade, then verified both `pnpm audit` (clean) and the full
+   `pnpm check` (24/24 tests) after the update, not just that the install
+   step succeeded
+   ([`2674092`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-baishi/commit/2674092)).
+
 _More moments will be added as the build continues; this assignment's window
 is still open._

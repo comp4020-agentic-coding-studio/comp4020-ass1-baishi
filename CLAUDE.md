@@ -182,3 +182,19 @@ mid-range counts, and the max) with `agent-browser` and actually look --- the
 first version of this body curve passed every check yet was a wave, not a
 curl, and never looked like a shrimp at any stroke count until that render
 was checked directly.
+
+## `pnpm check` doesn't cover supply-chain risk
+
+Nothing in `pnpm check` runs `pnpm audit`, so a real vulnerability in a
+dependency can sit there indefinitely with every sensor above still green.
+Run `pnpm audit` as its own periodic check, separate from `pnpm check`. If it
+finds something, try a plain `pnpm update` first --- it only moves versions
+within the ranges already declared in `package.json`, so it can't introduce
+the kind of breaking change a major bump risks, and it's worth trying before
+reaching for anything riskier. Confirmed on this repo: `pnpm audit` found 9
+real vulnerabilities (4 high, 5 moderate) in transitive dev-tooling
+dependencies (`undici` via `jsdom`; `postcss`/`nanoid`/`js-yaml`/`fast-uri`
+via `stylelint`'s toolchain) that a green `pnpm check` had never surfaced,
+and a plain `pnpm update` --- bumping only `oxlint` and `vite` within their
+existing `^` ranges, no `package.json` range changes --- cleared every one of
+them, confirmed by re-running both `pnpm audit` and `pnpm check`.
