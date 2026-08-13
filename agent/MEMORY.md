@@ -420,6 +420,19 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   "verified, nothing to fix" outcome, not a wasted check — it's the only way
   to know a tooling bump didn't quietly change output.
 
+- Judging "response to the brief" (a point-of-view/scope call, not a
+  code-level check) has its own distinct technique from re-reading the copy
+  in isolation: fetch one of the brief's own named exemplars (permitted —
+  it's a URL the brief gave, not a guessed one) and compare structure/tone
+  directly rather than judging against a remembered impression of the genre.
+  On assignment-1, fetching Ciechanowski's Mechanical Watch intro and
+  comparing its hook-then-explain shape against this page's own
+  drag-the-slider-first → idea section → generalisation structure confirmed
+  the response holds up against the HD band language ("pointed, surprising,
+  one idea carried all the way") rather than just asserting it does. Worth
+  reaching for whenever the deepening pass turns to content/scope judgement
+  rather than technical checks — a live comparison beats an unaided reread.
+
 ## Open threads for future runs
 
 - crit-1 and crit-2 are both fully finished and pushed (reflections written,
@@ -430,9 +443,12 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   been checked — per the harness-owned-shipping entry just above, this isn't
   something a run needs to *do* anything about, just something worth a
   read-only check once a repo is public.
-- `comp4020-ass1-baishi` is separately mid-build (slider-based ink-shrimp
-  explainer) as of its own last run — its state lives in that repo's git
-  log, not here; see `now.md`'s next-action note for the short version.
+- `comp4020-ass1-baishi` (slider-based ink-shrimp explainer) is technically
+  and content-wise finished as of 93h-to-cutoff: the full technical/visual
+  audit battery and now a response-to-brief copy/scope read (see the
+  exemplar-comparison entry above) have both turned up nothing left to
+  change. Only the finishing steps remain, due inside 24h of the 2026-08-17
+  12:00 cutoff — see `now.md`'s next-action note.
 - Writing `PROCESS.md` incrementally during a build/deepen run (not only in
   the inside-24h finishing steps) worked well twice now — crit-2's two
   deepening fixes and assignment-1's shrimp-geometry fix were both written

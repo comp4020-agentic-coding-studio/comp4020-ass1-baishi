@@ -7,47 +7,48 @@ deliverable: comp4020-ass1-baishi
 
 ## State
 
-This run's prompt named `comp4020-ass1-baishi`, 100h from cutoff (due noon
-Mon 2026-08-17) — deepen territory, but comfortably before the finishing
-window. Re-fetched the course source: brief and spec unchanged from what's
-already captured in `MEMORY.md`.
+This run's prompt named `comp4020-ass1-baishi`, 93h from cutoff (due noon Mon
+2026-08-17) — still deepen territory. Re-fetched the course source: brief and
+spec unchanged from what's already captured in `MEMORY.md`.
 
-Took stock: repo unchanged since the prior run (`2d464f6`), tree clean,
-`PROCESS.md` at three moments (meets the spec's minimum), `pnpm check`
-green (24/24). Per the prior run's own note, the technical-audit battery
-(axe-core, html-validate, tab-order, pointer-drag, resize, resource timing,
-`pnpm audit`) is exhausted for unchanged code, so this run looked for one
-genuinely new angle rather than re-running it: whether the `oxlint`/`vite`
-bump from the last run's `pnpm update` (`2674092`) changed anything visible,
-since that's exactly the kind of change a green `tsc`/`vitest`/lint run
-can't itself detect.
+Took stock: repo unchanged since the prior run (`6464f57`), tree clean,
+`pnpm check` green. Per the prior run's own note, the technical/visual audit
+battery is exhausted for unchanged code, so this run took the one angle it
+flagged as genuinely untried: a critical read of the response-to-brief
+copy/scope against the brief's own exemplars, as its own distinct pass rather
+than folded into a technical check.
 
-Served `dist/` fresh (`CI=true pnpm preview`), opened it with
-`agent-browser`, and screenshotted `#shrimp-canvas` at strokes
-0/3/5/8/10/13/16. Geometry unchanged — the C-curl body, the sweet-spot
-legs, the over-elaborated duplicate outline and extra ticks at max — and
-`agent-browser console` came back empty. Shut the preview server down
-afterwards. No commit this run: a legitimate "verified, nothing to fix"
-outcome, not a gap. Wrote the finding into `MEMORY.md` so a future run
-knows this specific post-bump check has already been done rather than
-re-running it blind.
+Reread `index.html`'s full copy (lede, "The idea", "Where else it shows up")
+cold against the HD band language ("a pointed, surprising answer to the
+provocation, scoped with judgement: one idea, carried all the way"), then
+fetched Ciechanowski's Mechanical Watch intro (a URL the brief itself names as
+an exemplar, not guessed) for a direct tone/structure comparison. His intro:
+reframe why the subject deserves attention → promise a hands-on interactive →
+manage complexity expectations. This page's structure: a direct
+drag-the-slider instruction as the hook → "The idea" section supplies the
+why-care reframe (recognition itself, not just painting) → "Where else it
+shows up" generalises to caricature/emoji/logos, which is where the point of
+view actually lives. Same hook-then-explain shape, and the generalisation
+section is doing real point-of-view work rather than padding.
+
+Conclusion: nothing to change. This is a legitimate "verified, nothing
+needed" outcome for the response-to-brief criterion specifically — distinct
+from (and not a repeat of) the technical/visual audits already exhausted in
+prior runs. No commit this run.
 
 ## Next action
 
-- The technical/visual audit surface is now exhausted for the current code,
-  including the post-dependency-bump regression check. A future deepening
-  run should either wait for the code to actually change before re-running
-  any of this battery, or find a genuinely different angle (not yet tried:
-  a fresh critical read of the "response to brief" copy/scope against the
-  exemplars, treated as its own distinct pass rather than folded into a
-  technical check).
-- `PROCESS.md` has three moments (534 words) — meets the spec's "three or
-  four" floor. A fourth is optional; don't manufacture one just to add a
-  number. If a future run finds a real fourth harness-level correction,
-  add it; otherwise leave it at three.
-- `reflections/assignment-1.md` still correctly doesn't exist yet — write
-  it inside 24h of the 2026-08-17 12:00 cutoff, alongside the other
-  doctrine finishing steps (verify live once shipped, `git status` clean,
-  push, update memory).
-- Keep resisting scope growth on the artefact itself — it already reads as
-  one idea carried all the way, matching the brief's HD band language.
+- Both the technical/visual audit surface and now the response-to-brief
+  copy/scope read have turned up nothing to change. A future deepening run
+  should wait for the code to actually change before re-running the technical
+  battery, and treat a repeat content-read as low-value unless the copy itself
+  changes — the genuinely open angles left are process/legibility ones (see
+  below), not more re-reading of a page that hasn't moved.
+- `PROCESS.md` has three moments (534 words), meeting the spec's "three or
+  four" floor. Still don't manufacture a fourth without a real harness-level
+  finding.
+- `reflections/assignment-1.md` still correctly doesn't exist yet — write it
+  inside 24h of the 2026-08-17 12:00 cutoff, alongside the other doctrine
+  finishing steps (verify live once shipped, `git status` clean, push, update
+  memory).
+- Keep resisting scope growth on the artefact itself.
