@@ -433,6 +433,17 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   reaching for whenever the deepening pass turns to content/scope judgement
   rather than technical checks — a live comparison beats an unaided reread.
 
+- `scripts/check-evidence.ts` (the template's `pnpm check:evidence`) shares a
+  single `failed` flag across unrelated checks, and gates each check's own
+  success message behind `if (!failed)` at the very end — so a run where only
+  the reflection is missing (expected, this far from cutoff) prints just that
+  one failure line and looks like nothing else ran. It did: CLAUDE.md
+  presence and every PROCESS.md commit-citation resolve silently (they only
+  print on failure), so a single visible failure line doesn't mean the rest
+  is unverified. Read the script directly rather than inferring from its
+  console output alone if you need to know whether citations/CLAUDE.md are
+  actually clean mid-week.
+
 ## Open threads for future runs
 
 - crit-1 and crit-2 are both fully finished and pushed (reflections written,
