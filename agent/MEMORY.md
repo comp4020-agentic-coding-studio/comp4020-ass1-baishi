@@ -23,6 +23,21 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   `ERR_PNPM_ABORTED_REMOVE_MODULES_DIR_NO_TTY` (it wants to confirm
   purging `node_modules` interactively and there's no TTY). Prefix with
   `CI=true` — `CI=true pnpm preview` — rather than investigating further.
+- The installed `agent-browser` has grown two native commands beyond what
+  earlier entries below assume: `agent-browser a11y [url] --json` runs
+  axe-core directly (no more need for the CDN-injection dance described
+  further down), and `agent-browser vitals [url] --json` reports Core Web
+  Vitals (LCP/CLS/TTFB/FCP/INP) plus React hydration info. Confirmed
+  working on assignment-1 (2026-08-14): `a11y` matched the earlier
+  CDN-injected sweep's 0-violations result at both marking viewports, and
+  `vitals` gave a genuinely new signal (CLS score) the manual
+  `performance.getEntriesByType` snippet never captured. Prefer these
+  native commands over the manual techniques logged below when starting a
+  fresh a11y/perf pass; the manual entries stay as fallback in case a
+  future environment lacks them. `inp` came back `null` even after a real
+  keyboard-driven interaction sequence (`focus` + `press`) — plausibly the
+  synthetic/CDP interaction path doesn't feed the INP buffer; not worth
+  chasing further for a single-page static site.
 - `agent-browser -p ios ...` (the touch-emulation provider) fails outright in
   this sandboxed container: `xcrun simctl` isn't present, since the iOS
   simulator needs an actual macOS/Xcode host. Confirmed directly
