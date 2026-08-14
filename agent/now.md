@@ -1,5 +1,5 @@
 ---
-updated: 2026-08-14
+updated: 2026-08-15
 deliverable: comp4020-ass1-baishi
 ---
 
@@ -7,60 +7,48 @@ deliverable: comp4020-ass1-baishi
 
 ## State
 
-This run's prompt named `comp4020-ass1-baishi`, 63h from cutoff (due noon Mon
-2026-08-17) — deepen territory. Re-fetched the course source: brief and spec
-unchanged since the previous run. Took stock: repo unchanged since the prior
-run (`670ff69`), tree clean, already pushed and matching `origin/main`.
+This run's prompt named `comp4020-ass1-baishi`, 52h from cutoff (due noon Mon
+2026-08-17) — still deepen territory, not yet the 24h finishing window
+(opens ~2026-08-16 12:00). Re-fetched the course source: brief, spec, and
+marking bands unchanged since the previous run. Took stock: repo unchanged
+since the prior run (`59a0927`), tree clean, pushed and matching
+`origin/main` (confirmed with `git fetch`).
 
-Ran a full `pnpm check` (typecheck, build, lint, 24 tests) and
-`pnpm check:evidence` cold, both exactly as expected: everything green except
-the still-correctly-missing `reflections/assignment-1.md`. Reread `index.html`,
-`main.ts`, `strokes.ts`, and the relevant CSS fresh — content, markup, and code
-all match what `MEMORY.md`/`PROCESS.md` already claim (sr-only phase label is
-clip-based not `display:none`, `STROKES` still the C-curl body, etc.).
+Per the previous run's own explicit advice ("do not repeat this full battery
+again next run unless the code has changed... consider spacing out
+intermediate runs' full-battery re-checks"), did not re-run the full
+browser-based sweep (a11y, Lighthouse, keyboard, zoom, etc.) against
+unchanged code — that would be repetition, not deepening. Instead ran the
+two cheap, fast sensors that are worth checking every so often regardless:
+`pnpm check` (typecheck, build, lint, 24 tests — all green) and `pnpm audit`
+(no known vulnerabilities). Both clean, nothing to fix.
 
-Found one genuine gap and closed it: the favicon commit (`2856ed4`, previous
-run) changed `index.html`'s markup, but that run only verified it via
-`agent-browser console`/`network` and Lighthouse — it never re-ran the other
-checks that specifically react to markup changes (linkinator, html-validate,
-the native a11y sweep), per the standing "re-run when markup changes" lesson
-in `MEMORY.md`. Ran all three fresh against a clean `pnpm build`:
+`PROCESS.md` still exactly 600 words with four moments (at the assignment's
+400–600 word / three-or-four-moment ceiling). `reflections/assignment-1.md`
+still correctly absent — not due until inside the 24h finishing window.
 
-- `pnpm dlx linkinator ./dist` — 5/5 links resolve, including the new
-  `dist/assets/favicon-*.svg` at 200.
-- `pnpm dlx html-validate dist/*.html` — only the two already-documented
-  non-issues (`doctype-style`, `void-style`, both intentional per this
-  template's modern-HTML convention), nothing new from the `<link
-  rel="icon">` tag.
-- `agent-browser a11y` (native, served via `CI=true pnpm preview`) — 0
-  violations, 35 passes, matching the pre-favicon result.
-
-No code change resulted — this was verification of an existing change, not a
-new finding, so it isn't a fifth `PROCESS.md` moment (the file is already at
-its 600-word/four-moment ceiling and all four still hold). Cleaned up: closed
-the `agent-browser` session, killed the preview server, no stray temp files.
-
-No memory or code commits from this run — nothing changed.
+No code or content commits from this run — nothing needed changing. No
+memory content changed either beyond this snapshot.
 
 ## Next action
 
-- Every technical/visual/content angle tried across prior runs (see
-  `MEMORY.md`'s long list, now including "did the favicon markup change break
-  anything the specific re-run checks would catch" — it didn't) has come back
-  clean on the current code. Genuinely nothing left to deepen without either
-  new code changing or a new sensor appearing, same as the previous run's
-  conclusion, now confirmed again 6 hours later. Do not repeat this full
-  battery again next run unless the code has changed — that would be pure
-  repetition, not deepening.
-- `PROCESS.md` sits at exactly 600 words with four moments — at the ceiling
-  of the budget. Do not add a fifth moment without trimming an existing one
-  first, and only for a genuine harness-level finding.
-- `reflections/assignment-1.md` still correctly doesn't exist — write it
-  inside 24h of the 2026-08-17 12:00 cutoff, alongside the other doctrine
-  finishing steps (verify the live URL once shipped, `git status` clean,
-  push, update memory). At 63h out, a future run before the 24h window may
-  again find the honest answer is simply to wait — that's a legitimate
-  outcome, not a failure to find work. Consider spacing out or skipping
-  intermediate runs' full-battery re-checks until either the code changes or
-  the 24h finishing window opens.
-- Keep resisting scope growth on the artefact itself.
+- The 24h finishing window opens ~2026-08-16 12:00 (noon). The next run at or
+  after that point should do the doctrine's finishing steps: re-verify no
+  console errors and full reachability locally, confirm `PROCESS.md`
+  citations still resolve, **write `reflections/assignment-1.md`** (400-600
+  word `PROCESS.md` budget is separate from the reflection — the reflection
+  answers the two standing prompts: the breakthrough that moved the work
+  forward, and what this work changed about the developer you want to be),
+  commit, push, then verify the live URL once shipped (repo is currently
+  still private — shipping/visibility flip is harness-owned per doctrine,
+  not this agent's job).
+- Every technical/visual/content deepening angle across prior runs (see
+  `MEMORY.md`'s long list) has come back clean on the current code and has
+  now been confirmed clean across three consecutive runs with no code
+  changes in between. Do not re-run the full browser battery again unless
+  either the code changes or the finishing window opens — a fourth
+  identical confirmation would be pure repetition. `pnpm check` +
+  `pnpm audit` are cheap enough to run every session as a fast sanity check;
+  the expensive `agent-browser`/Lighthouse sweep is not.
+- Keep resisting scope growth on the artefact itself. The work remaining is
+  entirely the finishing steps, not new building.
