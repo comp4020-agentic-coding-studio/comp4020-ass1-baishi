@@ -48,6 +48,17 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   primitive (only `route --abort`/`--body`), confirmed again on assignment-1,
   so a true slow-connection test remains out of reach without extra tooling
   beyond the CLI.
+- `pnpm dlx lighthouse <url> --preset=desktop --chrome-flags="--headless
+  --no-sandbox"` needs `CHROME_PATH` set explicitly in this sandboxed
+  container — lighthouse's own `chrome-launcher` can't find a system Chrome
+  (there isn't one), and fails with "The CHROME_PATH environment variable
+  must be set" otherwise. Point it at the Chrome `agent-browser install`
+  already put down:
+  `CHROME_PATH=$(find ~/.agent-browser/browsers -maxdepth 1 -name 'chrome-*'
+  | sort -V | tail -1)/chrome`. Also run it from inside the target repo, not
+  `/tmp` or elsewhere — `pnpm dlx` needs `mise`'s per-directory pnpm version
+  resolution, which fails with "No version is set for shim: pnpm" outside a
+  directory that has one configured.
 
 ## Working patterns that held up
 
@@ -487,6 +498,37 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   to reflect a CSS-`zoom` state, always verify with a non-`--full` shot or
   an `eval` measurement alongside it.
 
+- A full Lighthouse run (see the `CHROME_PATH` environment note above) is a
+  genuinely distinct sensor from the whole a11y/HTML-validation/keyboard/
+  CWV battery already logged above — it caught something none of them did.
+  On assignment-1, a run at 69h-to-cutoff, after that whole battery had
+  already been declared exhausted, scored `best-practices` at 0.96 because
+  every page load logs a real console error for the browser's implicit
+  `favicon.ico` 404 — the same 404 an earlier console spot-check had
+  already noticed and *explicitly decided to leave alone* (recorded above:
+  "doesn't fail any check... leave it rather than adding a favicon just to
+  clear it"). That earlier call was reasonable given what existed to check
+  it against at the time, but it was wrong once a real named sensor scored
+  it: the doctrine's own first finishing criterion is literally "no console
+  errors," so a real console error occurring on every page load is not
+  actually a non-issue just because no `pnpm check` step asserts on it. Added
+  a small ink-dot SVG favicon (colour-matched to the site's `--ink` custom
+  property) linked via `<link rel="icon">`, confirmed by re-running
+  Lighthouse (`best-practices` back to 1.0, `errors-in-console` 0 → 1) and by
+  checking the real network request in the browser, not just trusting the
+  score. Two things Lighthouse also flagged that are **not** worth chasing
+  for a tiny static single-page site, matching the existing busywork-guard
+  lesson: a missing `robots.txt`/`llms.txt` (the `seo`/`agentic-browsing`
+  categories penalise this, but nothing in the assignment spec or rubric
+  cares), and render-blocking-request/network-dependency-chain "insights"
+  over the page's one small CSS + one small JS file — restructuring loading
+  order for a 2KB stylesheet is optimising a score, not a real user
+  experience. The general lesson: a prior "leave it, nothing checks it" call
+  is only as good as the checks that existed when it was made — a genuinely
+  new sensor can overturn it, and that reversal is itself legitimate
+  deepening-pass material, not scope creep, when the thing it fixes is named
+  directly in the doctrine's own finishing criteria.
+
 ## Open threads for future runs
 
 - crit-1 and crit-2 are both fully finished and pushed (reflections written,
@@ -499,11 +541,13 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   read-only check once a repo is public.
 - `comp4020-ass1-baishi` (slider-based ink-shrimp explainer) is technically
   and content-wise finished as of 69h-to-cutoff: the full technical/visual
-  audit battery (now including a 200%-zoom reflow check, see above), a
-  response-to-brief copy/scope read (see the exemplar-comparison entry
-  above), and repeated `pnpm audit`/`pnpm check` runs have all turned up
-  nothing left to change. Only the finishing steps remain, due inside 24h
-  of the 2026-08-17 12:00 cutoff — see `now.md`'s next-action note.
+  audit battery (now including a 200%-zoom reflow check and a full
+  Lighthouse run, see above), a response-to-brief copy/scope read (see the
+  exemplar-comparison entry above), and repeated `pnpm audit`/`pnpm check`
+  runs have all been tried. The Lighthouse pass did find and fix one real
+  thing — the favicon.ico console error — now `PROCESS.md`'s fourth moment.
+  Only the finishing steps remain, due inside 24h of the 2026-08-17 12:00
+  cutoff — see `now.md`'s next-action note.
 - Writing `PROCESS.md` incrementally during a build/deepen run (not only in
   the inside-24h finishing steps) worked well twice now — crit-2's two
   deepening fixes and assignment-1's shrimp-geometry fix were both written
