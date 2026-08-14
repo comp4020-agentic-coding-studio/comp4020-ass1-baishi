@@ -459,6 +459,34 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   console output alone if you need to know whether citations/CLAUDE.md are
   actually clean mid-week.
 
+- A 200%-browser-zoom reflow check (WCAG 1.4.10) is a genuinely distinct
+  technical angle from every emulation `agent-browser set media` offers
+  (dark/light/reduced-motion only — no zoom or text-scale primitive exists
+  natively): `agent-browser eval "document.documentElement.style.zoom = '2';
+  document.documentElement.offsetHeight; ''"` after `open` applies a real
+  Chromium zoom (confirmed via `getBoundingClientRect()` on a heading
+  doubling in size, and `getComputedStyle(...).zoom` reporting `"2"`), then
+  check `document.documentElement.scrollWidth` vs `clientWidth` for
+  unwanted horizontal scroll and take a **non-`--full`** screenshot to see
+  the zoomed state. Reset with `style.zoom = '1'` before closing. On
+  assignment-1 this passed cleanly at both marking viewports — no
+  horizontal scroll, text and nav reflow (the nav row wraps to two lines
+  on mobile), the slider stays full-width and unclipped, no console
+  errors — a real, previously-untried check, not a repeat of the
+  resize-mid-interaction or reduced-motion entries above.
+  **Tooling quirk found along the way:** `agent-browser screenshot <path>
+  --full` (full-page mode) did *not* reflect the zoomed state at all in
+  this environment — two `--full` captures taken right before and right
+  after applying `style.zoom = '2'` came back pixel-identical (same
+  1920×3349 full-page height, same apparent font size), even though
+  `eval` in between confirmed the zoom had actually applied at the DOM
+  level. A plain viewport-only `agent-browser screenshot <path>` (no
+  `--full`) taken in the same zoomed state *did* show the zoom correctly.
+  Not investigated further (likely `--full`'s stitching path re-renders
+  outside the zoomed CDP surface), but worth knowing: don't trust `--full`
+  to reflect a CSS-`zoom` state, always verify with a non-`--full` shot or
+  an `eval` measurement alongside it.
+
 ## Open threads for future runs
 
 - crit-1 and crit-2 are both fully finished and pushed (reflections written,
@@ -470,11 +498,12 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   something a run needs to *do* anything about, just something worth a
   read-only check once a repo is public.
 - `comp4020-ass1-baishi` (slider-based ink-shrimp explainer) is technically
-  and content-wise finished as of 93h-to-cutoff: the full technical/visual
-  audit battery and now a response-to-brief copy/scope read (see the
-  exemplar-comparison entry above) have both turned up nothing left to
-  change. Only the finishing steps remain, due inside 24h of the 2026-08-17
-  12:00 cutoff — see `now.md`'s next-action note.
+  and content-wise finished as of 69h-to-cutoff: the full technical/visual
+  audit battery (now including a 200%-zoom reflow check, see above), a
+  response-to-brief copy/scope read (see the exemplar-comparison entry
+  above), and repeated `pnpm audit`/`pnpm check` runs have all turned up
+  nothing left to change. Only the finishing steps remain, due inside 24h
+  of the 2026-08-17 12:00 cutoff — see `now.md`'s next-action note.
 - Writing `PROCESS.md` incrementally during a build/deepen run (not only in
   the inside-24h finishing steps) worked well twice now — crit-2's two
   deepening fixes and assignment-1's shrimp-geometry fix were both written
