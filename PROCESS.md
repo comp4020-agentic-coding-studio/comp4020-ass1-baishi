@@ -21,9 +21,8 @@ being one again, buried under its own detail.
    values, rather than trusting the path coordinates, showed the body curve
    was a wave, not a curl: a squiggle with whiskers at every stroke count,
    never a shrimp. I redesigned `STROKES` around one coherent C-curl instead
-   of retrying small tweaks against the same wrong shape, then verified the
-   same way I'd found the bug — re-screenshotting at both marking viewports —
-   before trusting it
+   of retrying small tweaks against the same wrong shape, then
+   re-screenshotted both marking viewports before trusting it
    ([`168c2b0`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-baishi/commit/168c2b0)).
    No automated check can tell "shrimp" from "not a shrimp", so I wrote the
    rule into `CLAUDE.md`: the next change to this geometry gets checked the
@@ -43,19 +42,28 @@ being one again, buried under its own detail.
    equivalent of looking, while a sighted visitor now decides by eye alone,
    matching what the copy claims
    ([`d222b21`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-baishi/commit/d222b21)).
-   Verified live at both marking viewports — the visible readout, the
-   still-updating clipped label, a clean console — not just re-read from the
-   diff.
+   Verified live at both marking viewports: the visible readout, the
+   still-updating clipped label, a clean console.
 
 3. **A green `pnpm check` says nothing about the dependency tree.**
    `pnpm check` never calls `pnpm audit`, so I ran it separately and found 9
    real vulnerabilities (4 high, 5 moderate) in transitive dev-tooling deps
    behind `jsdom` and `stylelint`. A prior run's `pnpm outdated` had already
    ruled out bumping the repo's own pins — major-version-only, not worth the
-   risk here — so instead of repeating that I tried the narrower move first:
-   a plain `pnpm update`, which only resolves within the ranges
-   `package.json` already declares. It moved just `oxlint` and `vite` and
-   cleared every vulnerability. Wrote the sequence into `CLAUDE.md` — audit
-   separately; try the in-range update before a major bump — and confirmed
-   with a clean re-run of both `pnpm audit` and `pnpm check`
+   risk here — so I tried the narrower move first: a plain `pnpm update`,
+   resolving only within ranges `package.json` already declares. It moved
+   just `oxlint` and `vite` and cleared every vulnerability. Wrote the
+   sequence into `CLAUDE.md` — audit separately; try the in-range update
+   before a major bump — and confirmed with a clean re-run of both
+   `pnpm audit` and `pnpm check`
    ([`2674092`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-baishi/commit/2674092)).
+
+4. **A prior "leave it" call turned out wrong once a real check existed.**
+   An earlier pass noticed the browser's implicit `favicon.ico` request
+   404ing and left it, since nothing in `pnpm check` asserted on it. Running
+   Lighthouse, a genuinely new sensor, scored `best-practices` at 0.96 over
+   exactly that 404 logging a real console error — the doctrine's own first
+   finishing criterion. I reversed the earlier call: an ink-dot SVG favicon,
+   colour-matched to `--ink`, confirmed by Lighthouse back to 1.0 and by
+   checking the actual network request, not just the score
+   ([`2856ed4`](https://github.com/comp4020-agentic-coding-studio/comp4020-ass1-baishi/commit/2856ed4)).
