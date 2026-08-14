@@ -7,73 +7,60 @@ deliverable: comp4020-ass1-baishi
 
 ## State
 
-This run's prompt named `comp4020-ass1-baishi`, 69h from cutoff (due noon Mon
+This run's prompt named `comp4020-ass1-baishi`, 63h from cutoff (due noon Mon
 2026-08-17) — deepen territory. Re-fetched the course source: brief and spec
-unchanged. Took stock: repo unchanged since the prior run's code
-(`168c2b0`/`d222b21`/`2674092`), tree clean, one unpushed memory-tick commit
-(`0f3e167`) which I pushed first.
+unchanged since the previous run. Took stock: repo unchanged since the prior
+run (`670ff69`), tree clean, already pushed and matching `origin/main`.
 
-Prior run's `now.md` had declared the technical/visual audit battery
-exhausted. Tried one genuinely new angle not in that list: a full Lighthouse
-run (`pnpm dlx lighthouse`, needs `CHROME_PATH` pointed at the
-`agent-browser`-installed Chrome binary in this sandbox — see `MEMORY.md`).
-It found something real: `best-practices` scored 0.96 because every page
-load logs a console error for the browser's implicit `favicon.ico` 404 — the
-same 404 a much earlier run's manual console spot-check had noticed and
-*explicitly decided to leave alone* (no `pnpm check` step asserted on it).
-That earlier call was reasonable at the time but wrong once a real sensor
-scored it, since the doctrine's own first finishing criterion is literally
-"no console errors." Reversed it:
+Ran a full `pnpm check` (typecheck, build, lint, 24 tests) and
+`pnpm check:evidence` cold, both exactly as expected: everything green except
+the still-correctly-missing `reflections/assignment-1.md`. Reread `index.html`,
+`main.ts`, `strokes.ts`, and the relevant CSS fresh — content, markup, and code
+all match what `MEMORY.md`/`PROCESS.md` already claim (sr-only phase label is
+clip-based not `display:none`, `STROKES` still the C-curl body, etc.).
 
-- Added `favicon.svg` (a small ink-dot SVG, colour-matched to the site's
-  `--ink` custom property) and linked it via `<link rel="icon">` in
-  `index.html` (commit `2856ed4`).
-- Confirmed live: `agent-browser console` clean after reload,
-  `agent-browser network requests --filter favicon` shows the real
-  favicon.svg request returning 200 (not the old favicon.ico 404), and a
-  second Lighthouse run scored `best-practices` back to 1.0 and
-  `errors-in-console` 0 → 1.
-- Re-ran `pnpm check` (green: typecheck, build, lint, 24 tests) and
-  `pnpm check:evidence` (only failure is the still-correctly-missing
-  reflection) after the change.
-- Deliberately did **not** chase two other things Lighthouse flagged: a
-  missing `robots.txt`/`llms.txt` (dinged by the `seo`/`agentic-browsing`
-  categories, but nothing in the spec/rubric cares) and render-blocking/
-  network-dependency "insights" over the page's one small CSS + one small
-  JS file — that's optimising a score, not a real user experience, for a
-  single tiny static page. Consistent with the existing busywork-guard
-  lesson.
+Found one genuine gap and closed it: the favicon commit (`2856ed4`, previous
+run) changed `index.html`'s markup, but that run only verified it via
+`agent-browser console`/`network` and Lighthouse — it never re-ran the other
+checks that specifically react to markup changes (linkinator, html-validate,
+the native a11y sweep), per the standing "re-run when markup changes" lesson
+in `MEMORY.md`. Ran all three fresh against a clean `pnpm build`:
 
-Added this as `PROCESS.md`'s **fourth** moment (a real "correction landed in
-the harness" — reversing a documented prior decision once a new sensor
-existed), trimming the existing three moments to land the file at exactly
-600 words, the top of the 400–600 budget (commit `5b87f20`). Pushed both
-commits; `origin/main` is now at `5b87f20`.
+- `pnpm dlx linkinator ./dist` — 5/5 links resolve, including the new
+  `dist/assets/favicon-*.svg` at 200.
+- `pnpm dlx html-validate dist/*.html` — only the two already-documented
+  non-issues (`doctype-style`, `void-style`, both intentional per this
+  template's modern-HTML convention), nothing new from the `<link
+  rel="icon">` tag.
+- `agent-browser a11y` (native, served via `CI=true pnpm preview`) — 0
+  violations, 35 passes, matching the pre-favicon result.
 
-Cleaned up: closed the `agent-browser` session, killed the local preview
-server, removed the temp Lighthouse JSON files from `/tmp`.
+No code change resulted — this was verification of an existing change, not a
+new finding, so it isn't a fifth `PROCESS.md` moment (the file is already at
+its 600-word/four-moment ceiling and all four still hold). Cleaned up: closed
+the `agent-browser` session, killed the preview server, no stray temp files.
+
+No memory or code commits from this run — nothing changed.
 
 ## Next action
 
-- Angles now tried and exhausted on this code: technical/visual audits
-  (a11y via both CDN-injection and native `agent-browser a11y`, HTML
-  validation, keyboard nav/tab order/actuation, pointer-drag, resize
-  mid-interaction, reduced-motion, mobile perf/console, Core Web
-  Vitals/CLS, 200%-zoom reflow, and now a full Lighthouse run),
-  response-to-brief copy read against an exemplar, process-evidence/CI-config
-  read, `pnpm audit`. A future run shouldn't re-run any of these without a
-  reason (code changed, or a genuinely new angle) — but note the lesson from
-  this run: "already checked" isn't permanent if a *new* sensor becomes
-  available, since the favicon fix only surfaced because Lighthouse hadn't
-  been tried before, not because the code changed.
+- Every technical/visual/content angle tried across prior runs (see
+  `MEMORY.md`'s long list, now including "did the favicon markup change break
+  anything the specific re-run checks would catch" — it didn't) has come back
+  clean on the current code. Genuinely nothing left to deepen without either
+  new code changing or a new sensor appearing, same as the previous run's
+  conclusion, now confirmed again 6 hours later. Do not repeat this full
+  battery again next run unless the code has changed — that would be pure
+  repetition, not deepening.
 - `PROCESS.md` sits at exactly 600 words with four moments — at the ceiling
   of the budget. Do not add a fifth moment without trimming an existing one
   first, and only for a genuine harness-level finding.
 - `reflections/assignment-1.md` still correctly doesn't exist — write it
   inside 24h of the 2026-08-17 12:00 cutoff, alongside the other doctrine
   finishing steps (verify the live URL once shipped, `git status` clean,
-  push, update memory). At ~68h out from that window as of this run,
-  technical angles are now genuinely thin — a future run may find the
-  honest answer is simply to wait for the finishing window, and that's a
-  legitimate outcome, not a failure to find work.
+  push, update memory). At 63h out, a future run before the 24h window may
+  again find the honest answer is simply to wait — that's a legitimate
+  outcome, not a failure to find work. Consider spacing out or skipping
+  intermediate runs' full-battery re-checks until either the code changes or
+  the 24h finishing window opens.
 - Keep resisting scope growth on the artefact itself.
