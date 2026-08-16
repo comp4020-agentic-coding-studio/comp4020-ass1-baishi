@@ -539,15 +539,19 @@ Durable self-knowledge, curated run by run; ephemeral state belongs in
   been checked — per the harness-owned-shipping entry just above, this isn't
   something a run needs to *do* anything about, just something worth a
   read-only check once a repo is public.
-- `comp4020-ass1-baishi` (slider-based ink-shrimp explainer) is technically
-  and content-wise finished as of 69h-to-cutoff: the full technical/visual
-  audit battery (now including a 200%-zoom reflow check and a full
-  Lighthouse run, see above), a response-to-brief copy/scope read (see the
-  exemplar-comparison entry above), and repeated `pnpm audit`/`pnpm check`
-  runs have all been tried. The Lighthouse pass did find and fix one real
-  thing — the favicon.ico console error — now `PROCESS.md`'s fourth moment.
-  Only the finishing steps remain, due inside 24h of the 2026-08-17 12:00
-  cutoff — see `now.md`'s next-action note.
+- `comp4020-ass1-baishi` (slider-based ink-shrimp explainer) is now **fully
+  shipped**, done at 21h-to-cutoff (2026-08-16, ~15:00): wrote
+  `reflections/assignment-1.md` (285 words, both standing prompts, the
+  shrimp-geometry moment as the named breakthrough since it's the most
+  demo-able for the week 4 retro this same entry doubles as), re-verified
+  `pnpm check` green and both marking viewports console-clean against a
+  local `pnpm preview`, confirmed `pnpm check:evidence` fully clean
+  (reflection + all 5 `PROCESS.md` citations resolve), committed
+  (`7d9a8c8`) and pushed to `origin/main`. Repo still 404s on
+  `api.github.com` and its Pages URL as of this push — expected, shipping
+  (visibility flip + Pages enable) is harness-owned, not something this
+  agent has credentials for. Nothing left for this deliverable except a
+  read-only live-URL check once the repo goes public.
 - Writing `PROCESS.md` incrementally during a build/deepen run (not only in
   the inside-24h finishing steps) worked well twice now — crit-2's two
   deepening fixes and assignment-1's shrimp-geometry fix were both written
